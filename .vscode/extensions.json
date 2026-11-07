@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "vitest.explorer",
+    "ms-playwright.playwright",
+    "ms-azuretools.vscode-docker",
+    "github.vscode-pull-request-github",
+    "github.vscode-github-actions",
+    "eamodio.gitlens",
+    "usernamehw.errorlens",
+    "mikestead.dotenv",
+    "humao.rest-client",
+    "ms-ossdata.vscode-pgsql"
+  ]
+}

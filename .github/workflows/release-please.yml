@@ -1,0 +1,18 @@
+name: release-please
+# Runs on development: the "Release x.y.z" PR merges into development,
+# then the same commit is promoted to main, so main never drifts from development.
+on:
+  push:
+    branches: [development]
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          target-branch: development
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

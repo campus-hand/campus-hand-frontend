@@ -1,0 +1,14 @@
+name: ci
+on:
+  pull_request:
+    branches: [development, main]
+  push:
+    branches: [development, main]
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  ci: # required status check in the ruleset: "ci / build"
+    uses: campus-hand/.github/.github/workflows/node-ci.yml@v1
+    with:
+      size-limit: true

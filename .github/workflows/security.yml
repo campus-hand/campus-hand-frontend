@@ -1,0 +1,11 @@
+name: security
+on:
+  pull_request:
+    branches: [development, main]
+  push:
+    branches: [development, main]
+  schedule:
+    - cron: '17 3 * * 1' # Mondays 06:17 Kampala
+jobs:
+  scan:
+    uses: campus-hand/.github/.github/workflows/security.yml@v1
