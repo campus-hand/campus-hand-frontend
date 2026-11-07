@@ -14,4 +14,4 @@ jobs:
           node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec lhci autorun
+      - run: pnpm dlx @lhci/cli@0.16.0 autorun
