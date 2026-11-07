@@ -1,0 +1,4 @@
+[[IgnoredVulns]]
+id = "GHSA-gcqx-w48m-w2h4"
+ignoreUntil = 2027-02-07T00:00:00Z
+reason = "deepmerge is only used by the shadcn CLI at development time (shadcn -> @shadcn/registry). It is not shipped to students and no fixed version exists. Re-check when this expires."
