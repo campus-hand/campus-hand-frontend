@@ -45,3 +45,12 @@ next-env.d.ts
 /playwright-report
 /test-results
 /.lighthouseci
+
+# AI assistant files: local only, never committed
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+.claude/
+
+# local scratch
+_to_delete/

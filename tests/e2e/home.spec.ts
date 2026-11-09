@@ -15,3 +15,26 @@ test('home page loads with no critical accessibility issues', async ({ page }) =
   const { violations } = await new AxeBuilder({ page }).analyze();
   expect(violations.filter((v) => v.impact === 'critical')).toEqual([]);
 });
+
+test('landing page has no serious accessibility issues by day or at night', async ({ page }) => {
+  for (const colorScheme of ['light', 'dark'] as const) {
+    await page.emulateMedia({ colorScheme });
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-theme',
+      colorScheme === 'dark' ? 'night' : 'day',
+    );
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    expect(violations.filter((v) => v.impact === 'critical' || v.impact === 'serious')).toEqual([]);
+  }
+});
+
+test('night mode switch is remembered across visits', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('switch', { name: 'Night mode' }).check();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'night');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'night');
+  await page.getByRole('button', { name: 'Auto' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme-pref', 'auto');
+});
