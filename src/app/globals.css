@@ -51,6 +51,12 @@
   --deep-mute: #c9d4cf;
   --focus: #2350d8;
   --wordmark-hand: var(--cobalt);
+  /* scrollbar */
+  --sb-track: #f1ebdd;
+  --sb-edge: #14201f;
+  --sb-thumb: #14201f;
+  --sb-thumb-hover: #2350d8;
+  --sb-thumb-active: #ffd400;
   /* footer */
   --ft-bg: #14201f;
   --ft-ink: #fbf8f1;
@@ -127,6 +133,11 @@
   --deep-mute: #a9b1cb;
   --focus: #f2c94c;
   --wordmark-hand: var(--sun);
+  --sb-track: #0c1124;
+  --sb-edge: #2c3554;
+  --sb-thumb: #5c6894;
+  --sb-thumb-hover: #9db0ff;
+  --sb-thumb-active: #f2c94c;
   --ft-bg: #0a0f20;
   --ft-ink: #e9ecf5;
   --ft-mute: #a9b1cb;
@@ -220,10 +231,48 @@
     @apply bg-paper text-ink font-sans antialiased;
     letter-spacing: 0.003em;
     scroll-behavior: smooth;
+    /* In-page links land below the sticky header (height set by StickyHeaderController). */
+    scroll-padding-top: var(--header-h, 0px);
   }
   body {
     @apply bg-paper text-ink;
     line-height: 1.5;
+  }
+
+  /* Signboard scrollbar: sunken-paper track with an ink edge, ink pill thumb
+     that turns cobalt on hover and signal yellow while dragged (navy at night).
+     Chromium/Safari get the full shape; Firefox only supports the colours. */
+  ::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--sb-track);
+    border-left: 2px solid var(--sb-edge);
+  }
+  ::-webkit-scrollbar-track:horizontal {
+    border-left: 0;
+    border-top: 2px solid var(--sb-edge);
+  }
+  ::-webkit-scrollbar-thumb {
+    min-height: 48px;
+    background: var(--sb-thumb);
+    border: 3px solid var(--sb-track);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-thumb-hover);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--sb-thumb-active);
+  }
+  ::-webkit-scrollbar-corner {
+    background: var(--sb-track);
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    html {
+      scrollbar-color: var(--sb-thumb) var(--sb-track);
+    }
   }
   :where(a, button, input, textarea, summary, [tabindex]):focus-visible {
     outline: 3px solid var(--focus);
@@ -281,7 +330,9 @@
     box-shadow: 3px 3px 0 var(--drop);
     transition:
       transform 0.12s ease,
-      box-shadow 0.12s ease;
+      box-shadow 0.12s ease,
+      background-color 0.12s ease,
+      color 0.12s ease;
   }
   .btn:hover {
     transform: translate(-1px, -1px);
@@ -306,6 +357,156 @@
   .btn-ink {
     background: var(--inverse);
     color: var(--on-inverse);
+  }
+  /* Sticky site header: paper bar that draws its own ink line once the page scrolls. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--bg);
+    background-clip: padding-box;
+    border-bottom: 2.5px solid transparent;
+    margin-bottom: -2.5px;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .site-header[data-scrolled] {
+    border-bottom-color: var(--edge);
+    box-shadow: 0 3px 0 rgb(20 32 31 / 0.12);
+  }
+
+  /* Header and footer text links: pop up towards the reader on hover, with a
+     signal-yellow underline (only the line is yellow; the text keeps its colour). */
+  .link-pop {
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition:
+      transform 0.12s ease,
+      text-decoration-color 0.12s ease;
+  }
+  .link-pop:hover,
+  .link-pop:focus-visible {
+    transform: translateY(-2px);
+    text-decoration-color: var(--sun);
+  }
+
+  /* Logo mark lifts and tilts like a sign on hover. */
+  .logo-mark {
+    transition:
+      transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
+      filter 0.18s ease;
+  }
+  .logo-link:hover .logo-mark,
+  .logo-link:focus-visible .logo-mark {
+    transform: translate(-2px, -3px) rotate(-8deg) scale(1.08);
+    filter: drop-shadow(3px 3px 0 var(--drop));
+  }
+
+  /* Header "Log in": the hover pop-up also fills with the invite-band green. */
+  .btn-login:hover {
+    background: var(--green);
+    color: var(--on-green);
+  }
+
+  /* Phone menu: hamburger button, green drawer, staggered links */
+  .menu-trigger,
+  .menu-close {
+    width: 46px;
+    min-height: 46px;
+    height: 46px;
+    padding: 0;
+    border-radius: 12px;
+  }
+  /* Yellow at rest; fills with the drawer's green on hover, focus or while open. */
+  .menu-trigger:hover,
+  .menu-trigger:focus-visible,
+  .menu-trigger[data-popup-open] {
+    background: var(--green);
+    color: var(--on-green);
+  }
+  .menu-icon path {
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .menu-icon-short {
+    transform-origin: 6.5px 17.5px;
+    transform: scaleX(0.68);
+  }
+  .menu-trigger:hover .menu-icon-arc,
+  .menu-trigger:focus-visible .menu-icon-arc {
+    transform: translateY(-1px);
+  }
+  .menu-trigger:hover .menu-icon-short,
+  .menu-trigger:focus-visible .menu-icon-short,
+  .menu-trigger[data-popup-open] .menu-icon-short {
+    transform: scaleX(1);
+  }
+  .menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgb(10 15 20 / 0.55);
+    transition: opacity 0.28s ease;
+  }
+  .menu-backdrop[data-starting-style],
+  .menu-backdrop[data-ending-style] {
+    opacity: 0;
+  }
+  .menu-drawer {
+    position: fixed;
+    inset-block: 0;
+    right: 0;
+    z-index: 51;
+    display: flex;
+    flex-direction: column;
+    width: min(86vw, 360px);
+    padding: 18px 20px max(24px, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    background: var(--green);
+    color: var(--on-green);
+    border-left: 2.5px solid var(--edge);
+    box-shadow: -4px 0 0 var(--drop);
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .menu-drawer[data-starting-style],
+  .menu-drawer[data-ending-style] {
+    transform: translateX(calc(100% + 8px));
+  }
+  .menu-drawer:focus-visible {
+    outline: none;
+  }
+  .menu-drawer :focus-visible {
+    outline-color: var(--sun);
+  }
+  .menu-close svg {
+    transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s;
+  }
+  .menu-drawer[data-starting-style] .menu-close svg {
+    transform: rotate(-90deg);
+  }
+  .menu-link {
+    transition:
+      opacity 0.3s ease calc(0.08s + var(--i, 0) * 0.04s),
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) calc(0.08s + var(--i, 0) * 0.04s);
+  }
+  .menu-drawer[data-starting-style] .menu-link {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  a.menu-link {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    font-size: 36px;
+    letter-spacing: 0.02em;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 3px;
+  }
+  a.menu-link:hover {
+    text-decoration-line: underline;
+    text-decoration-color: var(--sun);
   }
 
   .chip {
@@ -622,23 +823,6 @@
   .dn input:focus-visible + .dn-track {
     outline: 3px solid var(--focus);
     outline-offset: 3px;
-  }
-  .theme-auto {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 40px;
-    padding: 0 13px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 650;
-    color: var(--ft-mute);
-    box-shadow: inset 0 0 0 1.5px var(--ft-rule);
-  }
-  .theme-auto[aria-pressed='true'] {
-    background: var(--ft-ink);
-    color: var(--ft-bg);
-    box-shadow: inset 0 0 0 1.5px var(--edge);
   }
 
   /* Footer social stickers */

@@ -15,38 +15,19 @@ function useTheme() {
     store?.getSnapshot ?? serverStore.getSnapshot,
     serverStore.getSnapshot,
   );
-  const [preference, resolved] = snapshot.split(':');
-  return { store, isAuto: preference === 'auto', isNight: resolved === 'night' };
+  const [, resolved] = snapshot.split(':');
+  return { store, isNight: resolved === 'night' };
 }
 
 /**
- * Appearance control from the design: an "Auto" button plus the
- * sun-to-moon switch. Picking day or night turns Auto off.
+ * Appearance control from the design: the sun-to-moon switch. The site
+ * follows the device setting until the switch is used (see ThemeStore.setNight).
  */
 export function AppearanceSwitch({ label = 'Appearance' }: { label?: string }) {
-  const { store, isAuto, isNight } = useTheme();
+  const { store, isNight } = useTheme();
 
   return (
     <div className="inline-flex items-center gap-3" role="group" aria-label={label}>
-      <button
-        type="button"
-        className="theme-auto"
-        aria-pressed={isAuto}
-        onClick={() => store?.setPreference('auto')}
-      >
-        <svg
-          className="size-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="8.5" />
-          <path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor" />
-        </svg>
-        Auto
-      </button>
       <span className="dn" style={{ ['--dn-edge' as string]: '#7C88B5' }}>
         <input
           type="checkbox"

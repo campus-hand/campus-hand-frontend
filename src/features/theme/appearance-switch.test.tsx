@@ -14,24 +14,28 @@ beforeEach(() => {
 });
 
 describe('AppearanceSwitch', () => {
-  it('starts on Auto and switches to night, then back to Auto', async () => {
+  it('has no Auto button, only the night mode switch', () => {
+    render(<AppearanceSwitch />);
+    expect(screen.queryByRole('button', { name: 'Auto' })).not.toBeInTheDocument();
+    expect(screen.getByRole('switch', { name: 'Night mode' })).toBeInTheDocument();
+  });
+
+  it('follows a day device, switches to night, then back to following the device', async () => {
     const user = userEvent.setup();
     render(<AppearanceSwitch />);
 
-    const auto = screen.getByRole('button', { name: 'Auto' });
     const night = screen.getByRole('switch', { name: 'Night mode' });
-    expect(auto).toHaveAttribute('aria-pressed', 'true');
     expect(night).not.toBeChecked();
 
     await user.click(night);
     expect(night).toBeChecked();
-    expect(auto).toHaveAttribute('aria-pressed', 'false');
     expect(document.documentElement.dataset.theme).toBe('night');
     expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe('night');
 
-    await user.click(auto);
-    expect(auto).toHaveAttribute('aria-pressed', 'true');
+    await user.click(night);
+    expect(night).not.toBeChecked();
     expect(document.documentElement.dataset.theme).toBe('day');
+    expect(document.documentElement.dataset.themePref).toBe('auto');
     expect(localStorage.getItem(THEME_STORAGE_KEY)).toBeNull();
   });
 });

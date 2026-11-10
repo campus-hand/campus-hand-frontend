@@ -303,7 +303,7 @@ export const landingContent = {
           { label: 'Find a tutor', href: SiteRoutes.tutors },
           { label: 'Campus blog', href: SiteRoutes.blog },
           { label: 'Help centre', href: SiteRoutes.help },
-          { label: 'Contact us on WhatsApp', href: SiteRoutes.help },
+          { label: 'Contact Us', href: SiteRoutes.help },
         ],
       },
       {
@@ -332,7 +332,7 @@ export const landingContent = {
       { label: 'Community rules', href: SiteRoutes.rules },
     ],
     payments: 'Pay with Mobile Money, card, Chipper Cash or bank',
-    madeIn: 'Made in Kampala.',
+    rightsNotice: 'All rights reserved.',
   },
 } as const;
 

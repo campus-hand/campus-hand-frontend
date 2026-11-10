@@ -44,7 +44,7 @@ export function SiteFooter() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="flex min-h-10 items-center text-[15.5px] font-medium hover:underline hover:underline-offset-[3px]"
+                      className="link-pop flex min-h-10 items-center text-[15.5px] font-medium"
                     >
                       {link.label}
                     </Link>
@@ -78,14 +78,14 @@ export function SiteFooter() {
 
         <div className="border-ft-rule flex flex-wrap items-center justify-between gap-x-7 gap-y-1 border-t pt-5">
           <p className="text-ft-mute text-sm">
-            © {year} Campus Hand. {footer.madeIn}
+            © {year} Campus Hand. {footer.rightsNotice}
           </p>
           <nav aria-label="Legal" className="flex flex-wrap gap-x-[18px] text-sm">
             {footer.legal.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="flex min-h-10 min-w-11 items-center justify-center hover:underline hover:underline-offset-[3px]"
+                className="link-pop flex min-h-10 min-w-11 items-center justify-center"
               >
                 {link.label}
               </Link>
