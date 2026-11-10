@@ -68,6 +68,15 @@
   --hill-2: #c9c0ac;
   --show-sun: inline;
   --show-moon: none;
+  /* auth screens */
+  --brand-panel: #2350d8;
+  --on-brand-panel: #ffffff;
+  --brand-tile: rgb(255 255 255 / 0.16);
+  --danger-bg: #fbdcd5;
+  --danger-fg: #8a2414;
+  --google-bg: #ffffff;
+  --google-fg: #1f1f1f;
+  --google-edge: #747775;
 
   /* shadcn primitives mapped onto Campus Hand tokens */
   --background: var(--bg);
@@ -148,6 +157,14 @@
   --hill-2: #141b35;
   --show-sun: none;
   --show-moon: inline;
+  --brand-panel: #1b2550;
+  --on-brand-panel: #e9ecf5;
+  --brand-tile: rgb(233 236 245 / 0.1);
+  --danger-bg: #3b1d1a;
+  --danger-fg: #ffb3a3;
+  --google-bg: #131314;
+  --google-fg: #e3e3e3;
+  --google-edge: #8e918f;
 }
 
 @theme inline {
@@ -197,6 +214,11 @@
   --color-ft-mute: var(--ft-mute);
   --color-ft-rule: var(--ft-rule);
   --color-ft-chip: var(--ft-chip);
+  --color-brand-panel: var(--brand-panel);
+  --color-on-brand-panel: var(--on-brand-panel);
+  --color-brand-tile: var(--brand-tile);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-fg: var(--danger-fg);
 
   /* shadcn colours */
   --color-background: var(--background);
@@ -921,6 +943,185 @@
   .hills .moon,
   .hills .stars {
     display: var(--show-moon);
+  }
+
+  /* ---------------- Auth screens (sign up, log in, passwords) ---------------- */
+
+  /* The form card: a sign on tablet and desktop, plain page on phones. */
+  .auth-card {
+    width: 100%;
+  }
+  @media (min-width: 640px) {
+    .auth-card {
+      padding: 40px 32px;
+      border-radius: 28px;
+      background: var(--surface);
+      box-shadow:
+        inset 0 0 0 2px var(--edge),
+        4px 4px 0 var(--drop);
+    }
+  }
+
+  /* Text input with a leading icon: outlined like a sign, with the hard shadow. */
+  .field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 54px;
+    padding: 0 8px 0 16px;
+    border-radius: 14px;
+    background: var(--surface);
+    color: var(--mute);
+    border: 2px solid var(--edge);
+    box-shadow: 3px 3px 0 var(--drop);
+  }
+  .field:focus-within {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .field[data-invalid] {
+    border-color: var(--red-text);
+    box-shadow: 3px 3px 0 var(--red-text);
+  }
+  .field input {
+    flex: 1;
+    min-width: 0;
+    height: 50px;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-size: 17px;
+    outline: none;
+  }
+  .field input::placeholder {
+    color: var(--mute);
+    opacity: 1;
+  }
+  .field input:focus-visible {
+    outline: none; /* the whole field shows the focus ring */
+  }
+  .field-code input {
+    height: 62px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 0.42em;
+    padding-left: 0.42em; /* balances the trailing letter-spacing */
+    font-variant-numeric: tabular-nums;
+  }
+  .field-code input::placeholder {
+    color: var(--mute);
+  }
+  .field-prefix {
+    padding-right: 12px;
+    border-right: 1.5px solid var(--rule);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .field-action {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    color: var(--ink-2);
+  }
+  .field-action:hover {
+    background: var(--sunken);
+  }
+
+  .btn:disabled {
+    cursor: progress;
+    opacity: 0.8;
+    transform: none;
+    box-shadow: 3px 3px 0 var(--drop);
+  }
+  .btn-block {
+    width: 100%;
+    min-height: 54px;
+    font-size: 17px;
+    font-weight: 750;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* Google's button (brand rules: white by day, near-black at night). */
+  .btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 999px;
+    border: 1px solid var(--google-edge);
+    background: var(--google-bg);
+    color: var(--google-fg);
+    font-weight: 600;
+    font-size: 17px;
+  }
+  .btn-google:hover {
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+  }
+
+  /* Info / error / success boxes under the forms. */
+  .notice {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: var(--sunken);
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .notice svg {
+    flex: none;
+    margin-top: 1px;
+  }
+  .notice-error {
+    background: var(--danger-bg);
+    color: var(--danger-fg);
+    box-shadow: inset 0 0 0 1.5px currentColor;
+  }
+  .notice-success {
+    background: var(--t-daily-bg);
+    color: var(--t-daily-fg);
+  }
+
+  .auth-link {
+    color: var(--link);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+  }
+  .auth-link:hover {
+    text-decoration-color: var(--sun);
+  }
+  .notice-error .auth-link {
+    color: inherit;
+  }
+
+  /* Day / Night pill on the auth screens. */
+  .theme-pill {
+    min-width: 64px;
+    min-height: 48px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 2px solid var(--rule);
+    background: var(--surface);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  [data-theme='night'] .theme-pill {
+    background: transparent;
+  }
+  .theme-pill:hover {
+    border-color: var(--edge);
   }
 
   .giant-wordmark {

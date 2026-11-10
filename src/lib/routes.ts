@@ -6,7 +6,11 @@
 export class SiteRoutes {
   static readonly home = '/';
   static readonly signup = '/signup';
+  static readonly verifyEmail = '/signup/verify';
   static readonly login = '/login';
+  static readonly otherDevice = '/login/other-device';
+  static readonly forgotPassword = '/forgot-password';
+  static readonly resetPassword = '/forgot-password/reset';
   static readonly courseUnits = '/course-units';
   static readonly pastPapers = '/past-papers';
   static readonly notes = '/notes';

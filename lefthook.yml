@@ -15,7 +15,9 @@ pre-commit:
 commit-msg:
   commands:
     commitlint:
-      run: pnpm exec commitlint --edit {1}
+      # No path after --edit: commitlint finds the message file itself, including in a git
+      # worktree, where {1} is an absolute path that breaks on the space in "B:\Campus Hand".
+      run: pnpm exec commitlint --edit
 pre-push:
   commands:
     protect-branches:
