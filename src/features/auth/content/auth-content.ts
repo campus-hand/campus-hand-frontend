@@ -26,7 +26,6 @@ export const authContent = {
     google: 'Sign up with Google',
     divider: 'or with your email',
     nameLabel: 'Full name',
-    namePlaceholder: 'Nakato Sarah',
     emailLabel: 'Email',
     emailPlaceholder: 'you@gmail.com',
     emailHint: 'Any email works. You can verify as a student later.',

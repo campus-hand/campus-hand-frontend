@@ -3,6 +3,15 @@ import { expect, type Page, test } from '@playwright/test';
 
 // These run against the preview sign-in (no API yet): code 123456 works, see PreviewAuthClient.
 
+/**
+ * A labelled input on the current screen. With Cache Components, Next keeps the
+ * previous route mounted but hidden (React <Activity>), so the same label can
+ * exist twice in the DOM after moving between auth screens.
+ */
+function visible(page: Page, label: string, options?: { exact?: boolean }) {
+  return page.getByLabel(label, options).filter({ visible: true });
+}
+
 const seeded = {
   verify: {
     name: 'Nakato Sarah',
@@ -64,9 +73,9 @@ for (const [heading, path, flow] of pages) {
 
 test('sign up, confirm the code and land back on the page that asked', async ({ page }) => {
   await page.goto('/signup?returnTo=%2Fpast-papers');
-  await page.getByLabel('Full name').fill('Nakato Sarah');
-  await page.getByLabel('Email').fill('nakato.sarah@gmail.com');
-  await page.getByLabel('Password', { exact: true }).fill('mango tea at 4pm');
+  await visible(page, 'Full name').fill('Nakato Sarah');
+  await visible(page, 'Email').fill('nakato.sarah@gmail.com');
+  await visible(page, 'Password', { exact: true }).fill('mango tea at 4pm');
   await expect(page.getByText('Strong. Nice one.')).toBeVisible();
   await page.getByRole('button', { name: 'Create account' }).click();
 
@@ -76,18 +85,18 @@ test('sign up, confirm the code and land back on the page that asked', async ({ 
   await page.reload();
   await expect(page.getByText('nakato.sarah@gmail.com')).toBeVisible();
 
-  await page.getByLabel('Code').fill('111111');
+  await visible(page, 'Code').fill('111111');
   await page.getByRole('button', { name: 'Confirm and continue' }).click();
   await expect(page.getByText(/That code isn't right/)).toBeVisible();
-  await page.getByLabel('Code').fill('123456');
+  await visible(page, 'Code').fill('123456');
   await page.getByRole('button', { name: 'Confirm and continue' }).click();
   await expect(page).toHaveURL(/\/past-papers$/);
 });
 
 test('log in while another device is signed in, then cancel back to log in', async ({ page }) => {
   await page.goto('/login');
-  await page.getByLabel('Email or phone').fill('busy@gmail.com');
-  await page.getByLabel('Password', { exact: true }).fill('mango tea at 4pm');
+  await visible(page, 'Email or phone').fill('busy@gmail.com');
+  await visible(page, 'Password', { exact: true }).fill('mango tea at 4pm');
   await page.getByRole('button', { name: 'Log in' }).click();
   await expect(page).toHaveURL(/\/login\/other-device$/);
   await expect(page.getByText('Tecno Spark 20, Chrome')).toBeVisible();
@@ -97,14 +106,14 @@ test('log in while another device is signed in, then cancel back to log in', asy
 
 test('forgot password: send a code, set a new password', async ({ page }) => {
   await page.goto('/login');
-  await page.getByLabel('Email or phone').fill('0772 123 456');
+  await visible(page, 'Email or phone').fill('0772 123 456');
   await page.getByRole('link', { name: 'Forgot password?' }).click();
-  await expect(page.getByLabel('Email or phone')).toHaveValue('+256 772 123 456');
+  await expect(visible(page, 'Email or phone')).toHaveValue('+256 772 123 456');
   await page.getByRole('button', { name: 'Send reset code' }).click();
   await expect(page).toHaveURL(/\/forgot-password\/reset$/);
   await expect(page.getByText('+256 7•• ••• 456')).toBeVisible();
-  await page.getByLabel('Code').fill('123456');
-  await page.getByLabel('New password').fill('mango tea at 4pm');
+  await visible(page, 'Code').fill('123456');
+  await visible(page, 'New password').fill('mango tea at 4pm');
   await page.getByRole('button', { name: 'Save and log in' }).click();
   await expect(page).toHaveURL(/\/$/);
 });

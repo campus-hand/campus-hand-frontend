@@ -105,7 +105,6 @@ export function SignUpScreen() {
           label={copy.nameLabel}
           icon={Users}
           autoComplete="name"
-          placeholder={copy.namePlaceholder}
           value={values.name}
           onChange={(e) => change('name', e.target.value)}
           error={errors.name}
