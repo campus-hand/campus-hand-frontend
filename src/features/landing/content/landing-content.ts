@@ -332,7 +332,7 @@ export const landingContent = {
       { label: 'Community rules', href: SiteRoutes.rules },
     ],
     payments: 'Pay with Mobile Money, card, Chipper Cash or bank',
-    madeIn: 'Made in Kampala.',
+    rightsNotice: 'All rights reserved.',
   },
 } as const;
 

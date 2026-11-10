@@ -78,7 +78,7 @@ export function SiteFooter() {
 
         <div className="border-ft-rule flex flex-wrap items-center justify-between gap-x-7 gap-y-1 border-t pt-5">
           <p className="text-ft-mute text-sm">
-            © {year} Campus Hand. {footer.madeIn}
+            © {year} Campus Hand. {footer.rightsNotice}
           </p>
           <nav aria-label="Legal" className="flex flex-wrap gap-x-[18px] text-sm">
             {footer.legal.map((link) => (
