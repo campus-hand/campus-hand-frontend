@@ -303,7 +303,7 @@ export const landingContent = {
           { label: 'Find a tutor', href: SiteRoutes.tutors },
           { label: 'Campus blog', href: SiteRoutes.blog },
           { label: 'Help centre', href: SiteRoutes.help },
-          { label: 'Contact us on WhatsApp', href: SiteRoutes.help },
+          { label: 'Contact Us', href: SiteRoutes.help },
         ],
       },
       {

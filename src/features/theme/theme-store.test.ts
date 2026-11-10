@@ -64,6 +64,25 @@ describe('ThemeStore', () => {
     expect(target.setAttribute).toHaveBeenCalledWith('data-theme', 'night');
   });
 
+  it('goes back to following the device when switched to match it', () => {
+    const { store, storage, device } = setup(null, false);
+    store.setNight(true);
+    expect(store.getPreference()).toBe('night');
+    store.setNight(false);
+    expect(store.getPreference()).toBe('auto');
+    expect(storage.getItem(THEME_STORAGE_KEY)).toBeNull();
+    device.flip(true);
+    expect(store.getResolved()).toBe('night');
+  });
+
+  it('remembers day when the device is set to night', () => {
+    const { store, storage } = setup(null, true);
+    expect(store.getResolved()).toBe('night');
+    store.setNight(false);
+    expect(store.getPreference()).toBe('day');
+    expect(storage.getItem(THEME_STORAGE_KEY)).toBe('day');
+  });
+
   it('forgets the stored choice when going back to Auto', () => {
     const { store, storage } = setup('day');
     store.setPreference('auto');

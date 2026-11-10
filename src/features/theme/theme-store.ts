@@ -72,9 +72,19 @@ export class ThemeStore {
     this.emit();
   }
 
-  /** The switch: picking Day or Night always turns Auto off. */
+  /**
+   * The day/night switch. Picking the opposite of the device setting is
+   * remembered; switching back to match the device returns to Auto, so the
+   * site follows the system again (there is no separate Auto button).
+   */
   setNight(isNight: boolean): void {
-    this.setPreference(isNight ? 'night' : 'day');
+    const wanted: ResolvedTheme = isNight ? 'night' : 'day';
+    const device: ResolvedTheme | null = this.device
+      ? this.device.matches
+        ? 'night'
+        : 'day'
+      : null;
+    this.setPreference(wanted === device ? 'auto' : wanted);
   }
 
   /** Writes data-theme / data-theme-pref on the target element. */

@@ -35,7 +35,12 @@ test('night mode switch is remembered across visits', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'night');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'night');
-  await page.getByRole('button', { name: 'Auto' }).click();
+  // Switching back to match the (day) device setting follows the system again.
+  await expect(page.getByRole('button', { name: 'Auto' })).toHaveCount(0);
+  const nightSwitch = page.getByRole('switch', { name: 'Night mode' });
+  await expect(nightSwitch).toBeChecked(); // wait until the saved choice is shown after hydration
+  await nightSwitch.uncheck();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'day');
   await expect(page.locator('html')).toHaveAttribute('data-theme-pref', 'auto');
 });
 

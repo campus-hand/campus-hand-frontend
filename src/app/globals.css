@@ -51,6 +51,12 @@
   --deep-mute: #c9d4cf;
   --focus: #2350d8;
   --wordmark-hand: var(--cobalt);
+  /* scrollbar */
+  --sb-track: #f1ebdd;
+  --sb-edge: #14201f;
+  --sb-thumb: #14201f;
+  --sb-thumb-hover: #2350d8;
+  --sb-thumb-active: #ffd400;
   /* footer */
   --ft-bg: #14201f;
   --ft-ink: #fbf8f1;
@@ -127,6 +133,11 @@
   --deep-mute: #a9b1cb;
   --focus: #f2c94c;
   --wordmark-hand: var(--sun);
+  --sb-track: #0c1124;
+  --sb-edge: #2c3554;
+  --sb-thumb: #5c6894;
+  --sb-thumb-hover: #9db0ff;
+  --sb-thumb-active: #f2c94c;
   --ft-bg: #0a0f20;
   --ft-ink: #e9ecf5;
   --ft-mute: #a9b1cb;
@@ -226,6 +237,42 @@
   body {
     @apply bg-paper text-ink;
     line-height: 1.5;
+  }
+
+  /* Signboard scrollbar: sunken-paper track with an ink edge, ink pill thumb
+     that turns cobalt on hover and signal yellow while dragged (navy at night).
+     Chromium/Safari get the full shape; Firefox only supports the colours. */
+  ::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--sb-track);
+    border-left: 2px solid var(--sb-edge);
+  }
+  ::-webkit-scrollbar-track:horizontal {
+    border-left: 0;
+    border-top: 2px solid var(--sb-edge);
+  }
+  ::-webkit-scrollbar-thumb {
+    min-height: 48px;
+    background: var(--sb-thumb);
+    border: 3px solid var(--sb-track);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-thumb-hover);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--sb-thumb-active);
+  }
+  ::-webkit-scrollbar-corner {
+    background: var(--sb-track);
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    html {
+      scrollbar-color: var(--sb-thumb) var(--sb-track);
+    }
   }
   :where(a, button, input, textarea, summary, [tabindex]):focus-visible {
     outline: 3px solid var(--focus);
@@ -334,7 +381,7 @@
   .link-pop {
     text-decoration-line: underline;
     text-decoration-color: transparent;
-    text-decoration-thickness: 2.5px;
+    text-decoration-thickness: 2px;
     text-underline-offset: 4px;
     transition:
       transform 0.12s ease,
@@ -776,23 +823,6 @@
   .dn input:focus-visible + .dn-track {
     outline: 3px solid var(--focus);
     outline-offset: 3px;
-  }
-  .theme-auto {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 40px;
-    padding: 0 13px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 650;
-    color: var(--ft-mute);
-    box-shadow: inset 0 0 0 1.5px var(--ft-rule);
-  }
-  .theme-auto[aria-pressed='true'] {
-    background: var(--ft-ink);
-    color: var(--ft-bg);
-    box-shadow: inset 0 0 0 1.5px var(--edge);
   }
 
   /* Footer social stickers */
