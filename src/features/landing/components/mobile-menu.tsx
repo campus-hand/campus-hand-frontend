@@ -19,7 +19,7 @@ export function MobileMenu({ className }: { className?: string }) {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger
-        className={['btn btn-line menu-trigger', className].filter(Boolean).join(' ')}
+        className={['btn btn-sun menu-trigger', className].filter(Boolean).join(' ')}
         aria-label="Open menu"
       >
         <MenuIcon />

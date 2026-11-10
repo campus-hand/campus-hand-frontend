@@ -324,6 +324,13 @@
     padding: 0;
     border-radius: 12px;
   }
+  /* Yellow at rest; fills with the drawer's green on hover, focus or while open. */
+  .menu-trigger:hover,
+  .menu-trigger:focus-visible,
+  .menu-trigger[data-popup-open] {
+    background: var(--green);
+    color: var(--on-green);
+  }
   .menu-icon path {
     transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
