@@ -9,6 +9,9 @@ pre-commit:
       glob: '*.{ts,tsx}'
       run: pnpm exec eslint --fix {staged_files}
       stage_fixed: true
+    typecheck:
+      glob: '*.{ts,tsx}'
+      run: pnpm typecheck
 commit-msg:
   commands:
     commitlint:
@@ -18,5 +21,3 @@ pre-push:
     protect-branches:
       use_stdin: true
       run: node scripts/guard-push.mjs
-    typecheck:
-      run: pnpm typecheck
