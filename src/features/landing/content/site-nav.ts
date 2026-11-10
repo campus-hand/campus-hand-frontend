@@ -8,6 +8,7 @@ export interface SiteNavLink {
 /** Main navigation, shared by the desktop header and the phone menu drawer. */
 export const siteNavLinks: readonly SiteNavLink[] = [
   { label: 'Course units', href: '#units' },
+  { label: 'Magezi', href: '#magezi' },
   { label: 'Tutors', href: '#tutors' },
   { label: 'Campus blog', href: '#campus' },
   { label: 'For lecturers', href: SiteRoutes.lecturers },
