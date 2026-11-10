@@ -38,3 +38,44 @@ test('night mode switch is remembered across visits', async ({ page }) => {
   await page.getByRole('button', { name: 'Auto' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme-pref', 'auto');
 });
+
+test('phone header keeps the logo and menu button on one row', async ({ page }) => {
+  await page.goto('/');
+  const header = page.locator('header').first();
+  const logo = header.getByRole('link', { name: 'Campus Hand home' });
+  const menuButton = header.getByRole('button', { name: 'Open menu' });
+  await expect(menuButton).toBeVisible();
+  await expect(header.getByRole('link', { name: 'Log in' })).toBeHidden();
+
+  const logoBox = await logo.boundingBox();
+  const menuBox = await menuButton.boundingBox();
+  const middle = (box: { y: number; height: number } | null) => (box ? box.y + box.height / 2 : 0);
+  expect(Math.abs(middle(logoBox) - middle(menuBox))).toBeLessThanOrEqual(6);
+
+  for (const colorScheme of ['light', 'dark'] as const) {
+    await page.emulateMedia({ colorScheme });
+    await menuButton.click();
+    const drawer = page.getByRole('dialog', { name: 'Menu' });
+    await expect(drawer.getByRole('link', { name: 'Sign up free' })).toBeVisible();
+    // Let the slide-in and link fade finish, so axe sees the final colours.
+    await page.waitForFunction(() => document.getAnimations().length === 0);
+    const { violations } = await new AxeBuilder({ page }).include('[role="dialog"]').analyze();
+    expect(violations.filter((v) => v.impact === 'critical' || v.impact === 'serious')).toEqual([]);
+    await page.keyboard.press('Escape');
+    await expect(drawer).toBeHidden();
+  }
+});
+
+test('desktop header keeps Log in and Sign up free beside the logo', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto('/');
+  const header = page.locator('header').first();
+  await expect(header.getByRole('button', { name: 'Open menu' })).toBeHidden();
+  const logoBox = await header.getByRole('link', { name: 'Campus Hand home' }).boundingBox();
+  for (const name of ['Log in', 'Sign up free']) {
+    const box = await header.getByRole('link', { name }).boundingBox();
+    expect(
+      Math.abs(logoBox!.y + logoBox!.height / 2 - (box!.y + box!.height / 2)),
+    ).toBeLessThanOrEqual(6);
+  }
+});

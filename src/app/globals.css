@@ -281,7 +281,9 @@
     box-shadow: 3px 3px 0 var(--drop);
     transition:
       transform 0.12s ease,
-      box-shadow 0.12s ease;
+      box-shadow 0.12s ease,
+      background-color 0.12s ease,
+      color 0.12s ease;
   }
   .btn:hover {
     transform: translate(-1px, -1px);
@@ -306,6 +308,102 @@
   .btn-ink {
     background: var(--inverse);
     color: var(--on-inverse);
+  }
+  /* Header "Log in": the hover pop-up also fills with the invite-band green. */
+  .btn-login:hover {
+    background: var(--green);
+    color: var(--on-green);
+  }
+
+  /* Phone menu: hamburger button, green drawer, staggered links */
+  .menu-trigger,
+  .menu-close {
+    width: 46px;
+    min-height: 46px;
+    height: 46px;
+    padding: 0;
+    border-radius: 12px;
+  }
+  .menu-icon path {
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .menu-icon-short {
+    transform-origin: 6.5px 17.5px;
+    transform: scaleX(0.68);
+  }
+  .menu-trigger:hover .menu-icon-arc,
+  .menu-trigger:focus-visible .menu-icon-arc {
+    transform: translateY(-1px);
+  }
+  .menu-trigger:hover .menu-icon-short,
+  .menu-trigger:focus-visible .menu-icon-short,
+  .menu-trigger[data-popup-open] .menu-icon-short {
+    transform: scaleX(1);
+  }
+  .menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgb(10 15 20 / 0.55);
+    transition: opacity 0.28s ease;
+  }
+  .menu-backdrop[data-starting-style],
+  .menu-backdrop[data-ending-style] {
+    opacity: 0;
+  }
+  .menu-drawer {
+    position: fixed;
+    inset-block: 0;
+    right: 0;
+    z-index: 51;
+    display: flex;
+    flex-direction: column;
+    width: min(86vw, 360px);
+    padding: 18px 20px max(24px, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    background: var(--green);
+    color: var(--on-green);
+    border-left: 2.5px solid var(--edge);
+    box-shadow: -4px 0 0 var(--drop);
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .menu-drawer[data-starting-style],
+  .menu-drawer[data-ending-style] {
+    transform: translateX(calc(100% + 8px));
+  }
+  .menu-drawer:focus-visible {
+    outline: none;
+  }
+  .menu-drawer :focus-visible {
+    outline-color: var(--sun);
+  }
+  .menu-close svg {
+    transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) 0.08s;
+  }
+  .menu-drawer[data-starting-style] .menu-close svg {
+    transform: rotate(-90deg);
+  }
+  .menu-link {
+    transition:
+      opacity 0.3s ease calc(0.08s + var(--i, 0) * 0.04s),
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) calc(0.08s + var(--i, 0) * 0.04s);
+  }
+  .menu-drawer[data-starting-style] .menu-link {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  a.menu-link {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    font-size: 36px;
+    letter-spacing: 0.02em;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 3px;
+  }
+  a.menu-link:hover {
+    text-decoration-line: underline;
+    text-decoration-color: var(--sun);
   }
 
   .chip {
