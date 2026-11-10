@@ -16,7 +16,7 @@ export function SiteHeader() {
           className="text-ink-2 order-3 hidden w-full flex-wrap gap-x-6 gap-y-1 text-[15.5px] font-semibold sm:flex md:order-none md:w-auto md:flex-1 md:gap-x-4 xl:gap-x-6"
         >
           {siteNavLinks.map((link) => (
-            <a key={link.label} href={link.href} className="nav-link py-2 hover:underline">
+            <a key={link.label} href={link.href} className="link-pop inline-block py-2">
               {link.label}
             </a>
           ))}

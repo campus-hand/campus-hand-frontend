@@ -44,7 +44,7 @@ export function SiteFooter() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="flex min-h-10 items-center text-[15.5px] font-medium hover:underline hover:underline-offset-[3px]"
+                      className="link-pop flex min-h-10 items-center text-[15.5px] font-medium"
                     >
                       {link.label}
                     </Link>
@@ -85,7 +85,7 @@ export function SiteFooter() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="flex min-h-10 min-w-11 items-center justify-center hover:underline hover:underline-offset-[3px]"
+                className="link-pop flex min-h-10 min-w-11 items-center justify-center"
               >
                 {link.label}
               </Link>
