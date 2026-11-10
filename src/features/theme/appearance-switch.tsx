@@ -1,23 +1,6 @@
 'use client';
 
-import { useSyncExternalStore } from 'react';
-import { ThemeStore } from './theme-store';
-
-const serverStore = {
-  subscribe: () => () => {},
-  getSnapshot: () => 'auto:day',
-};
-
-function useTheme() {
-  const store = typeof window === 'undefined' ? null : ThemeStore.forBrowser();
-  const snapshot = useSyncExternalStore(
-    store?.subscribe ?? serverStore.subscribe,
-    store?.getSnapshot ?? serverStore.getSnapshot,
-    serverStore.getSnapshot,
-  );
-  const [, resolved] = snapshot.split(':');
-  return { store, isNight: resolved === 'night' };
-}
+import { useTheme } from './use-theme';
 
 /**
  * Appearance control from the design: the sun-to-moon switch. The site
