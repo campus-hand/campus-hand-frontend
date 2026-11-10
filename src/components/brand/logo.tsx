@@ -1,7 +1,6 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { HomeLink } from './home-link';
 import { cn } from '@/lib/utils';
-import { SiteRoutes } from '@/lib/routes';
 
 interface LogoProps {
   size?: number;
@@ -19,10 +18,9 @@ export function Logo({
   className,
 }: LogoProps) {
   return (
-    <Link
-      href={SiteRoutes.home}
+    <HomeLink
       aria-label="Campus Hand home"
-      className={cn('inline-flex items-center gap-2.5', className)}
+      className={cn('logo-link inline-flex items-center gap-2.5', className)}
     >
       <Image
         src="/brand/campus-hand-logo.svg"
@@ -31,11 +29,11 @@ export function Logo({
         height={size}
         unoptimized
         priority
-        className="block flex-none"
+        className="logo-mark block flex-none"
       />
       <span className={cn('display', wordmarkClassName)}>
         Campus <span className={handClassName}>Hand</span>
       </span>
-    </Link>
+    </HomeLink>
   );
 }

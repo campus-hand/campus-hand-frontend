@@ -79,3 +79,38 @@ test('desktop header keeps Log in and Sign up free beside the logo', async ({ pa
     ).toBeLessThanOrEqual(6);
   }
 });
+
+test('header stays on screen while scrolling and section links land below it', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto('/');
+  const header = page.locator('header').first();
+  await header.getByRole('link', { name: 'Magezi' }).click();
+  await expect(page).toHaveURL(/#magezi$/);
+  await expect(header).toHaveAttribute('data-scrolled', '');
+  await expect.poll(async () => (await header.boundingBox())?.y).toBe(0);
+  const headerBottom = await header.evaluate((el) => el.getBoundingClientRect().bottom);
+  await expect
+    .poll(() => page.evaluate(() => document.getElementById('magezi')!.getBoundingClientRect().top))
+    .toBeGreaterThanOrEqual(headerBottom);
+
+  // Let the smooth scroll to #magezi settle, then the logo takes you back to the top.
+  await page.waitForFunction(
+    () =>
+      new Promise<boolean>((resolve) => {
+        const start = window.scrollY;
+        setTimeout(() => resolve(window.scrollY === start), 250);
+      }),
+  );
+  await header.getByRole('link', { name: 'Campus Hand home' }).click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(page).toHaveURL(/\/$/);
+});
+
+test('logo returns to the landing page from other pages', async ({ page }) => {
+  await page.goto('/tutors');
+  await page.getByRole('link', { name: 'Campus Hand home' }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Find the past paper. Understand the answer.' }),
+  ).toBeVisible();
+});

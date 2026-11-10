@@ -220,6 +220,8 @@
     @apply bg-paper text-ink font-sans antialiased;
     letter-spacing: 0.003em;
     scroll-behavior: smooth;
+    /* In-page links land below the sticky header (height set by StickyHeaderController). */
+    scroll-padding-top: var(--header-h, 0px);
   }
   body {
     @apply bg-paper text-ink;
@@ -309,6 +311,49 @@
     background: var(--inverse);
     color: var(--on-inverse);
   }
+  /* Sticky site header: paper bar that draws its own ink line once the page scrolls. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--bg);
+    background-clip: padding-box;
+    border-bottom: 2.5px solid transparent;
+    margin-bottom: -2.5px;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .site-header[data-scrolled] {
+    border-bottom-color: var(--edge);
+    box-shadow: 0 3px 0 rgb(20 32 31 / 0.12);
+  }
+
+  /* Header links pop up towards the reader on hover (underline kept). */
+  .nav-link {
+    display: inline-block;
+    transition:
+      transform 0.12s ease,
+      color 0.12s ease;
+  }
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    transform: translateY(-2px);
+    color: var(--ink);
+  }
+
+  /* Logo mark lifts and tilts like a sign on hover. */
+  .logo-mark {
+    transition:
+      transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
+      filter 0.18s ease;
+  }
+  .logo-link:hover .logo-mark,
+  .logo-link:focus-visible .logo-mark {
+    transform: translate(-2px, -3px) rotate(-8deg) scale(1.08);
+    filter: drop-shadow(3px 3px 0 var(--drop));
+  }
+
   /* Header "Log in": the hover pop-up also fills with the invite-band green. */
   .btn-login:hover {
     background: var(--green);
