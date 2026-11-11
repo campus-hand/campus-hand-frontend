@@ -1,7 +1,8 @@
 'use client';
 
-import { Check, Copy, MessageCircle, MessageSquareText } from 'lucide-react';
+import { Check, Copy, MessageSquareText } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { WhatsAppBadge } from '../icons/whatsapp-badge';
 import { ShareLinkBuilder } from '../models/share-link-builder';
 
 interface ShareActionsProps {
@@ -27,7 +28,7 @@ export function ShareActions({ size = 'md' }: ShareActionsProps) {
         rel="noopener noreferrer"
         className={`btn btn-sun ${height} ${size === 'lg' ? 'px-[26px] text-[17px]' : ''}`}
       >
-        <MessageCircle className="size-5" aria-hidden="true" />
+        <WhatsAppBadge />
         Share on WhatsApp
       </a>
       <button type="button" onClick={handleCopy} className={`btn btn-line ${height}`}>
