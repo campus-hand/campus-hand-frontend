@@ -39,8 +39,8 @@ export const authContent = {
     consentBefore: 'By creating an account you agree to the',
     consentAnd: 'and',
     consentAfter: '. Magezi may learn from your questions; turn it off any time in Settings.',
-    terms: 'Terms',
-    privacy: 'Privacy policy',
+    terms: 'Terms & Conditions',
+    privacy: 'Privacy Policy',
     haveAccount: 'Already have an account?',
     logIn: 'Log in',
     emailTakenAction: 'Log in instead', // TODO(content)

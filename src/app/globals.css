@@ -853,17 +853,33 @@
   }
 
   /* Footer social stickers */
-  .social-plate {
-    display: inline-block;
-    width: max-content;
-    margin-top: 8px;
-    padding: 9px;
-    border-radius: 16px;
-    background: var(--bg);
+  /* Footer social icons sit straight on the footer: a light cut-out outline
+     keeps the black stickers (TikTok, X) visible on the dark background. */
+  .ft-socials {
+    margin-top: 10px;
+  }
+  .ft-socials .social-sticker {
     box-shadow:
-      inset 0 0 0 2px var(--edge),
-      4px 4px 0 var(--sun);
-    transform: rotate(-1.5deg);
+      inset 0 0 0 2px var(--ft-ink),
+      3px 3px 0 rgb(0 0 0 / 0.55);
+  }
+  .ft-socials .social-sticker:hover,
+  .ft-socials .social-sticker:focus-visible {
+    box-shadow:
+      inset 0 0 0 2px var(--ft-ink),
+      5px 5px 0 rgb(0 0 0 / 0.55);
+  }
+
+  /* Footer quick links: lift and turn signal yellow on hover (no underline). */
+  .ft-link {
+    transition:
+      transform 0.12s ease,
+      color 0.12s ease;
+  }
+  .ft-link:hover,
+  .ft-link:focus-visible {
+    transform: translateY(-2px);
+    color: var(--sun);
   }
   /* WhatsApp's own mark on "Share on WhatsApp": its green and white glyph, as a small sticker. */
   .wa-badge {
