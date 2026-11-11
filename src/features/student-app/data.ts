@@ -3,6 +3,8 @@
 import { cacheLife } from 'next/cache';
 import { connection } from 'next/server';
 import type { CourseUnitDetail, TermCourseUnit } from '@/features/catalogue/models/catalogue';
+import type { CampusPost } from '@/features/campus/models/campus-post';
+import { PreviewCampusPostSource } from '@/features/campus/models/preview-campus-post-source';
 import { createCatalogueSource } from '@/features/catalogue/models/create-catalogue-source';
 import { catalogueMode } from '@/features/catalogue/models/data-mode';
 import type { CourseUnitMaterials } from '@/features/course-unit/models/materials';
@@ -99,6 +101,15 @@ export async function getProfilePlacement(place: StudyPlace): Promise<Placement 
 /** The viewer's uploads and their review status (preview data until uploads exist). */
 export function getMyUploads(): Promise<MyUpload[]> {
   return new PreviewUploadSource(0).myUploads();
+}
+
+/** Campus blog posts a moderator has checked (preview data until the blog API exists). */
+export function getCampusPosts(): Promise<CampusPost[]> {
+  return new PreviewCampusPostSource().list();
+}
+
+export function getCampusPost(slug: string): Promise<CampusPost | null> {
+  return new PreviewCampusPostSource().find(slug);
 }
 
 /** A topic's quiz (preview data until Magezi builds quizzes). */

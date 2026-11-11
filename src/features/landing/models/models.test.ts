@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from 'vitest';
-import { BlogPost } from './blog-post';
 import { CourseUnit } from './course-unit';
 import { ReferralProgram } from './referral-program';
 import { ShareLinkBuilder } from './share-link-builder';
@@ -19,14 +18,6 @@ describe('Tutor', () => {
   });
   it('formats the rating', () => {
     expect(new Tutor('A B', '', 5, '').ratingLabel).toBe('5.0');
-  });
-});
-
-describe('BlogPost', () => {
-  it('writes the byline', () => {
-    expect(new BlogPost('Food', 'Lunch', 'Achieng Faith', 4).byline).toBe(
-      'Achieng Faith, 4 minute read',
-    );
   });
 });
 

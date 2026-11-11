@@ -37,6 +37,14 @@ export class SiteRoutes {
   static readonly research = '/research';
   static readonly tutors = '/tutors';
   static readonly blog = '/blog';
+  static blogPost(slug: string): string {
+    return `/blog/${encodeURIComponent(slug)}`;
+  }
+  /** "?topic=fees" filters the campus blog. */
+  static blogTopic(category: string): string {
+    return `/blog?topic=${encodeURIComponent(category.toLowerCase())}`;
+  }
+  static readonly writePost = '/blog/write';
   static readonly help = '/help';
   static readonly upload = '/upload';
   /** Upload without an account. */
