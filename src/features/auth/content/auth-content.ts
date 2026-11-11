@@ -17,7 +17,6 @@ export const authContent = {
       { icon: 'magezi', text: 'Magezi explains pages, quizzes you and plans your revision' },
       { icon: 'people', text: 'Tutors and classmates from your own campus' },
     ],
-    footer: 'Made in Kampala for Ugandan universities',
   },
 
   signUp: {
@@ -138,8 +137,8 @@ export const authContent = {
   fieldErrors: {
     nameRequired: 'Enter your full name.',
     emailInvalid: 'Enter an email like you@gmail.com.',
-    identifierInvalid: 'Enter your email, or a Ugandan mobile number like 772 123 456.',
-    phoneInvalid: 'Enter a Ugandan mobile number like 772 123 456.',
+    identifierInvalid: 'Enter your email, or a mobile number like 772 123 456.',
+    phoneInvalid: 'Enter a mobile number like 772 123 456.',
     passwordRequired: 'Enter your password.',
     codeIncomplete: 'Enter all 6 digits of the code.',
   },

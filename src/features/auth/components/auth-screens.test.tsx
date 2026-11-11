@@ -61,7 +61,7 @@ describe('Sign up', () => {
     expect(screen.getByText('Enter your full name.')).toBeInTheDocument();
     expect(screen.getByText(/Enter an email like/)).toBeInTheDocument();
     expect(screen.getByText(/Too short/)).toBeInTheDocument();
-    expect(screen.getByText(/Ugandan mobile number/)).toBeInTheDocument();
+    expect(screen.getByText(/a mobile number like 772 123 456/)).toBeInTheDocument();
     expect(field('Full name')).toHaveFocus();
     expect(field('Full name')).toHaveAttribute('aria-invalid', 'true');
 
@@ -218,7 +218,7 @@ describe('Log in', () => {
   it('checks the fields before sending anything', async () => {
     const { user } = renderScreen(<LogInScreen />);
     await user.click(screen.getByRole('button', { name: 'Log in' }));
-    expect(screen.getByText(/Enter your email, or a Ugandan mobile number/)).toBeInTheDocument();
+    expect(screen.getByText(/Enter your email, or a mobile number/)).toBeInTheDocument();
     expect(screen.getByText('Enter your password.')).toBeInTheDocument();
     expect(screen.getByRole('checkbox', { name: 'Keep me logged in' })).toBeChecked();
   });
@@ -336,7 +336,7 @@ describe('Forgot and reset password', () => {
     const { user } = renderScreen(<ForgotPasswordScreen />);
     await user.type(field('Email or phone'), 'nakato');
     await user.click(screen.getByRole('button', { name: 'Send reset code' }));
-    expect(screen.getByText(/Enter your email, or a Ugandan mobile number/)).toBeInTheDocument();
+    expect(screen.getByText(/Enter your email, or a mobile number/)).toBeInTheDocument();
     expect(router.push).not.toHaveBeenCalled();
   });
 
@@ -416,9 +416,9 @@ describe('AuthLayout and the Day/Night button', () => {
         <p>form</p>
       </AuthLayout>,
     );
-    expect(screen.getByRole('complementary', { name: 'About Campus Hand' })).toHaveTextContent(
-      'Made in Kampala for Ugandan universities',
-    );
+    const panel = screen.getByRole('complementary', { name: 'About Campus Hand' });
+    expect(panel).toHaveTextContent('Tutors and classmates from your own campus');
+    expect(panel).not.toHaveTextContent(/Kampala|Ugand/);
     const pill = screen.getByRole('button', { name: 'Switch to Night mode' });
     await user.click(pill);
     expect(document.documentElement.dataset.theme).toBe('night');
