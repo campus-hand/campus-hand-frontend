@@ -163,11 +163,11 @@ export function ReaderScreen({
           type="button"
           disabled
           title="Downloads start once uploads are live"
+          aria-label={`Download, ${resource.sizeLabel} (not available in the preview)`}
           className="btn btn-line hidden px-4 disabled:opacity-60 lg:inline-flex"
         >
           <Download className="size-5" aria-hidden="true" />
           Download, {resource.sizeLabel}
-          <span className="sr-only"> (not available in the preview)</span>
         </button>
       </header>
 

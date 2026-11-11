@@ -112,7 +112,8 @@ test('header stays on screen while scrolling and section links land below it', a
 });
 
 test('logo returns to the landing page from other pages', async ({ page }) => {
-  await page.goto('/tutors');
+  // An unbuilt page: the "Coming soon" screen carries the logo.
+  await page.goto('/help');
   await page.getByRole('link', { name: 'Campus Hand home' }).click();
   await expect(page).toHaveURL(/\/$/);
   await expect(

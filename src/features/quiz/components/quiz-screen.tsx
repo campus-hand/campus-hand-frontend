@@ -119,7 +119,6 @@ export function QuizScreen({
                   type="button"
                   onClick={() => setQuiz((q) => q.answer(i))}
                   disabled={answered}
-                  aria-label={`${LETTERS[i]}: ${option}${showRight ? ', correct answer' : ''}${showWrong ? ', your answer, wrong' : ''}`}
                   className={cn(
                     'flex min-h-[76px] w-full items-center gap-5 rounded-[22px] px-5 text-left text-[22px] font-semibold',
                     'bg-surface shadow-[inset_0_0_0_2px_var(--edge)]',
@@ -131,8 +130,8 @@ export function QuizScreen({
                     answered && !showRight && !showWrong && 'opacity-60',
                   )}
                 >
+                  {/* The name is the visible text ("A To the left"), plus the result when answered. */}
                   <span
-                    aria-hidden="true"
                     className={cn(
                       'flex size-12 flex-none items-center justify-center rounded-[13px] text-[18px] font-extrabold',
                       showRight
@@ -144,7 +143,11 @@ export function QuizScreen({
                   >
                     {LETTERS[i]}
                   </span>
-                  <span className="flex-1">{option}</span>
+                  <span className="flex-1">
+                    {option}
+                    {showRight ? <span className="sr-only">, correct answer</span> : null}
+                    {showWrong ? <span className="sr-only">, your answer, wrong</span> : null}
+                  </span>
                   {showRight ? <Check className="size-7" aria-hidden="true" /> : null}
                   {showWrong ? <X className="size-7" aria-hidden="true" /> : null}
                 </button>
