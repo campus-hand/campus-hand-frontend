@@ -22,7 +22,7 @@ export class PreviewStudySource implements StudySource {
       ]),
       resume: [
         {
-          id: 'r1',
+          id: 'pp1',
           title: 'Past paper, Paper 1',
           courseUnitCode: 'CSC 2100',
           kind: 'paper',
@@ -30,7 +30,7 @@ export class PreviewStudySource implements StudySource {
           stamp: 'DEC 2024',
         },
         {
-          id: 'r2',
+          id: 'proc-sched',
           title: 'Process scheduling',
           courseUnitCode: 'CSC 2104',
           kind: 'lecture',
@@ -42,7 +42,7 @@ export class PreviewStudySource implements StudySource {
         total: 12,
         items: [
           {
-            id: 's1',
+            id: 'pp1',
             title: 'Exam, Paper 1, December 2024',
             courseUnitCode: 'CSC 2100',
             kind: 'paper',
@@ -50,7 +50,7 @@ export class PreviewStudySource implements StudySource {
             offline: true,
           },
           {
-            id: 's2',
+            id: 'lec5',
             title: 'Lecture 5: Binary search trees',
             courseUnitCode: 'CSC 2100',
             kind: 'lecture',
@@ -58,7 +58,7 @@ export class PreviewStudySource implements StudySource {
             offline: true,
           },
           {
-            id: 's3',
+            id: 'proc-sched',
             title: 'Process scheduling',
             courseUnitCode: 'CSC 2104',
             kind: 'lecture',
@@ -70,21 +70,21 @@ export class PreviewStudySource implements StudySource {
       newByCourseUnit: { 'CSC 2100': 3, 'CSC 2104': 1 },
       feed: [
         {
-          id: 'f1',
+          id: 'avl',
           title: 'AVL rotations, worked examples',
           byline: 'Nakato Sarah, CSC 2100',
           kind: 'daily',
           stamp: '15 OCT',
         },
         {
-          id: 'f2',
+          id: 'proc-sched',
           title: 'Process scheduling',
           byline: 'Dr. Atim Grace, lecturer, CSC 2104',
           kind: 'lecture',
           stamp: 'LEC 6',
         },
         {
-          id: 'f3',
+          id: 'pp-2110-may25',
           title: 'Past paper, Paper 2',
           byline: 'CSC 2110, added by a moderator',
           kind: 'paper',
