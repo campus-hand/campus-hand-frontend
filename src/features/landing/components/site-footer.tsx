@@ -4,7 +4,6 @@ import { AppearanceSwitch } from '@/features/theme/appearance-switch';
 import { landingContent } from '../content/landing-content';
 import { KampalaHills } from '../icons/kampala-hills';
 import { socialChannels } from '../icons/social-icons';
-import { ShareActions } from './share-actions';
 
 export function SiteFooter() {
   const { footer } = landingContent;
@@ -14,21 +13,13 @@ export function SiteFooter() {
     <footer className="bg-ft-bg text-ft-ink relative overflow-hidden">
       <KampalaHills />
       <div className="wrap flex flex-col gap-12 pt-2.5">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <div className="flex flex-col items-start gap-4">
-            <Logo size={72} wordmarkClassName="text-[44px]" handClassName="text-sun" />
-            <p className="text-ft-mute max-w-[44ch] text-[16.5px]">{footer.description}</p>
-            <div className="flex flex-wrap items-center gap-3">
-              <h3 className="eyebrow text-ft-mute">Appearance</h3>
-              <AppearanceSwitch />
-            </div>
-          </div>
-          <div className="bg-sun text-on-sun flex flex-wrap items-center justify-between gap-[18px] rounded-[18px] px-[26px] py-6 shadow-[inset_0_0_0_2.5px_var(--edge),4px_4px_0_var(--drop)]">
-            <div className="min-w-0">
-              <p className="display text-[38px]">{footer.invite.title}</p>
-              <p className="mt-1.5 text-[15.5px]">{footer.invite.body}</p>
-            </div>
-            <ShareActions whatsappClassName="btn-ink" />
+        {/* No invite strip here: "Bring your whole class" just above already has the share buttons. */}
+        <div className="flex flex-col items-start gap-4">
+          <Logo size={72} wordmarkClassName="text-[44px]" handClassName="text-sun" />
+          <p className="text-ft-mute max-w-[44ch] text-[16.5px]">{footer.description}</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <h3 className="eyebrow text-ft-mute">Appearance</h3>
+            <AppearanceSwitch />
           </div>
         </div>
 

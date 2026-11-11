@@ -21,7 +21,7 @@ export function InviteBand() {
             {invite.title}
           </h2>
           <p className="max-w-[46ch] text-lg">{invite.lead}</p>
-          <ShareActions withSms size="lg" />
+          <ShareActions size="lg" />
           <Link
             href={SiteRoutes.invite}
             className="underline-link inline-flex min-h-11 items-center gap-2 text-base font-bold"
