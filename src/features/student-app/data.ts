@@ -12,6 +12,9 @@ import { PreviewQuizSource } from '@/features/quiz/models/preview-quiz-source';
 import { PreviewResourceSource } from '@/features/reader/models/preview-resource-source';
 import type { ReaderResource } from '@/features/reader/models/resource';
 import { PreviewTutorSource } from '@/features/tutors/models/preview-tutor-source';
+import { EMPTY_PLACEMENT, type Placement } from '@/features/upload/models/placement';
+import { PreviewUploadSource } from '@/features/upload/models/preview-upload-source';
+import type { MyUpload } from '@/features/upload/models/upload';
 import type { TutorProfile } from '@/features/tutors/models/tutors';
 import { PreviewViewerSource, type StudyPlace, type Viewer } from '@/features/viewer/models/viewer';
 import { SiteRoutes } from '@/lib/routes';
@@ -70,6 +73,32 @@ export function getTutors(): Promise<TutorProfile[]> {
 
 export function getTutor(id: string): Promise<TutorProfile | null> {
   return new PreviewTutorSource().find(id);
+}
+
+/**
+ * The viewer's own university, programme, year and semester as upload picks,
+ * so the upload form starts filled in. Null when the programme is not in the catalogue.
+ */
+export async function getProfilePlacement(place: StudyPlace): Promise<Placement | null> {
+  'use cache';
+  cacheLife('minutes');
+  const programme = await createCatalogueSource().findProgramme(
+    place.institutionSlug,
+    place.programmeCode,
+  );
+  if (!programme) return null;
+  return {
+    ...EMPTY_PLACEMENT,
+    institutionSlug: place.institutionSlug,
+    programmeId: programme.id,
+    year: place.year,
+    semester: place.semester,
+  };
+}
+
+/** The viewer's uploads and their review status (preview data until uploads exist). */
+export function getMyUploads(): Promise<MyUpload[]> {
+  return new PreviewUploadSource(0).myUploads();
 }
 
 /** A topic's quiz (preview data until Magezi builds quizzes). */

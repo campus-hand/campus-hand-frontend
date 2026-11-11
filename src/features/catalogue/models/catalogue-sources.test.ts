@@ -41,6 +41,23 @@ describe('ApiCatalogueSource', () => {
     expect(await source().findProgramme('uict', 'OTHER')).toBeNull();
   });
 
+  it('lists institutions, and no programmes for an unknown institution', async () => {
+    server.use(
+      http.get(`${API}/catalogue/institutions`, () =>
+        HttpResponse.json({
+          items: [{ slug: 'uict', name: 'UICT full name', shortName: 'UICT' }],
+        }),
+      ),
+      http.get(`${API}/catalogue/institutions/nowhere/programmes`, () =>
+        HttpResponse.json({ message: 'Not found' }, { status: 404 }),
+      ),
+    );
+    expect(await source().listInstitutions()).toEqual([
+      { slug: 'uict', name: 'UICT full name', shortName: 'UICT' },
+    ]);
+    expect(await source().listProgrammes('nowhere')).toEqual([]);
+  });
+
   it('asks for one year and semester of a programme', async () => {
     let query = '';
     server.use(
@@ -145,6 +162,12 @@ describe('PreviewCatalogueSource', () => {
     expect(await preview.termCourseUnits(programme!.id, 1, 1)).toEqual([]);
     expect(await preview.termCourseUnits('other', 2, 1)).toEqual([]);
     expect(await preview.findProgramme('uict', 'BSCS')).toBeNull();
+  });
+
+  it('lists the sample university and its one programme', async () => {
+    expect((await preview.listInstitutions()).map((i) => i.slug)).toEqual(['sample']);
+    expect((await preview.listProgrammes('sample')).map((p) => p.code)).toEqual(['BSCS']);
+    expect(await preview.listProgrammes('uict')).toEqual([]);
   });
 
   it('returns a course unit with numbered topics, or null', async () => {

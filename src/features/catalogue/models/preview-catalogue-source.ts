@@ -4,7 +4,13 @@ import {
   type PreviewUnit,
   previewUnits,
 } from '../content/preview-catalogue';
-import type { CatalogueSource, CourseUnitDetail, Programme, TermCourseUnit } from './catalogue';
+import type {
+  CatalogueSource,
+  CourseUnitDetail,
+  InstitutionSummary,
+  Programme,
+  TermCourseUnit,
+} from './catalogue';
 
 /** The design's sample catalogue, in memory. Behaves like the API (null when missing). */
 export class PreviewCatalogueSource implements CatalogueSource {
@@ -12,10 +18,17 @@ export class PreviewCatalogueSource implements CatalogueSource {
 
   constructor(private readonly units: readonly PreviewUnit[] = previewUnits) {}
 
+  async listInstitutions(): Promise<InstitutionSummary[]> {
+    return [{ ...previewInstitution }];
+  }
+
+  async listProgrammes(institutionSlug: string): Promise<Programme[]> {
+    return institutionSlug === previewInstitution.slug ? [{ ...previewProgramme }] : [];
+  }
+
   async findProgramme(institutionSlug: string, programmeCode: string): Promise<Programme | null> {
-    return institutionSlug === previewInstitution.slug && programmeCode === previewProgramme.code
-      ? { ...previewProgramme }
-      : null;
+    const programmes = await this.listProgrammes(institutionSlug);
+    return programmes.find((p) => p.code === programmeCode) ?? null;
   }
 
   async termCourseUnits(
