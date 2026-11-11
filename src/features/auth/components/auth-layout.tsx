@@ -66,7 +66,6 @@ function BrandPanel() {
             })}
           </ul>
         </div>
-        <p className="text-[15px]">{brandPanel.footer}</p>
       </div>
     </aside>
   );

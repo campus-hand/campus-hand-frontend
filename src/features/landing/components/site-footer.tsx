@@ -35,7 +35,7 @@ export function SiteFooter() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="link-pop flex min-h-10 items-center text-[15.5px] font-medium"
+                      className="ft-link flex min-h-10 items-center text-[15.5px] font-medium"
                     >
                       {link.label}
                     </Link>
@@ -46,7 +46,7 @@ export function SiteFooter() {
           ))}
           <div className="col-span-2 sm:col-span-1">
             <h3 className="eyebrow text-ft-mute mb-1">Follow us</h3>
-            <div className="social-plate">
+            <div className="ft-socials">
               <ul className="grid grid-cols-[repeat(4,42px)] gap-2">
                 {socialChannels.map((channel) => (
                   <li key={channel.slug}>
@@ -76,7 +76,7 @@ export function SiteFooter() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="link-pop flex min-h-10 min-w-11 items-center justify-center"
+                className="ft-link flex min-h-10 min-w-11 items-center justify-center"
               >
                 {link.label}
               </Link>

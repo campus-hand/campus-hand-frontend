@@ -61,7 +61,7 @@ describe('Sign up', () => {
     expect(screen.getByText('Enter your full name.')).toBeInTheDocument();
     expect(screen.getByText(/Enter an email like/)).toBeInTheDocument();
     expect(screen.getByText(/Too short/)).toBeInTheDocument();
-    expect(screen.getByText(/Ugandan mobile number/)).toBeInTheDocument();
+    expect(screen.getByText(/a mobile number like 772 123 456/)).toBeInTheDocument();
     expect(field('Full name')).toHaveFocus();
     expect(field('Full name')).toHaveAttribute('aria-invalid', 'true');
 
@@ -124,13 +124,15 @@ describe('Sign up', () => {
 });
 
 describe('Check your email', () => {
-  const flow: AuthFlowState = {
+  // A fresh "code sent" time for every test, so the resend countdown does not
+  // depend on how long the earlier tests took.
+  const flow = (): AuthFlowState => ({
     name: 'Nakato Sarah',
     email: 'nakato.sarah@gmail.com',
     phone: '+256772123456',
     channel: 'email',
     codeSentAt: Date.now(),
-  };
+  });
 
   it('asks to start again when opened without signing up first', () => {
     renderScreen(<VerifyEmailScreen />);
@@ -139,11 +141,12 @@ describe('Check your email', () => {
   });
 
   it('shows where the code went, the resend timer and the SMS option', () => {
-    renderScreen(<VerifyEmailScreen />, { flow });
+    renderScreen(<VerifyEmailScreen />, { flow: flow() });
     expect(screen.getByRole('heading', { name: 'Check your email' })).toBeInTheDocument();
     expect(screen.getByText('nakato.sarah@gmail.com')).toBeInTheDocument();
     expect(screen.getByText('Step 2 of 2')).toBeInTheDocument();
-    expect(screen.getByText(/Resend in 0:(5\d|60)/)).toBeInTheDocument();
+    // Just sent: a full minute shows as "1:00", a moment later "0:59" and so on.
+    expect(screen.getByText(/Resend in (1:00|0:5\d)/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Change it' })).toHaveAttribute(
       'href',
       '/signup#email',
@@ -151,7 +154,7 @@ describe('Check your email', () => {
   });
 
   it('says what is wrong with a bad code', async () => {
-    const { user } = renderScreen(<VerifyEmailScreen />, { flow });
+    const { user } = renderScreen(<VerifyEmailScreen />, { flow: flow() });
     await user.click(screen.getByRole('button', { name: 'Confirm and continue' }));
     expect(screen.getByText('Enter all 6 digits of the code.')).toBeInTheDocument();
 
@@ -163,7 +166,7 @@ describe('Check your email', () => {
 
   it('confirms the code and finishes where the student started', async () => {
     window.history.replaceState(null, '', '/signup/verify?returnTo=%2Fnotes%2Fcsc-1100');
-    const { user, store } = renderScreen(<VerifyEmailScreen />, { flow });
+    const { user, store } = renderScreen(<VerifyEmailScreen />, { flow: flow() });
     await user.type(field('Code'), '123 456');
     await user.click(screen.getByRole('button', { name: 'Confirm and continue' }));
     expect(router.replace).toHaveBeenCalledWith('/notes/csc-1100');
@@ -171,7 +174,7 @@ describe('Check your email', () => {
   });
 
   it('switches to SMS and back', async () => {
-    const { user, store } = renderScreen(<VerifyEmailScreen />, { flow });
+    const { user, store } = renderScreen(<VerifyEmailScreen />, { flow: flow() });
     await user.click(screen.getByRole('button', { name: 'Send by SMS instead' }));
     expect(await screen.findByRole('heading', { name: 'Check your phone' })).toBeInTheDocument();
     expect(screen.getByText('+256 772 123 456')).toBeInTheDocument();
@@ -218,7 +221,7 @@ describe('Log in', () => {
   it('checks the fields before sending anything', async () => {
     const { user } = renderScreen(<LogInScreen />);
     await user.click(screen.getByRole('button', { name: 'Log in' }));
-    expect(screen.getByText(/Enter your email, or a Ugandan mobile number/)).toBeInTheDocument();
+    expect(screen.getByText(/Enter your email, or a mobile number/)).toBeInTheDocument();
     expect(screen.getByText('Enter your password.')).toBeInTheDocument();
     expect(screen.getByRole('checkbox', { name: 'Keep me logged in' })).toBeChecked();
   });
@@ -336,7 +339,7 @@ describe('Forgot and reset password', () => {
     const { user } = renderScreen(<ForgotPasswordScreen />);
     await user.type(field('Email or phone'), 'nakato');
     await user.click(screen.getByRole('button', { name: 'Send reset code' }));
-    expect(screen.getByText(/Enter your email, or a Ugandan mobile number/)).toBeInTheDocument();
+    expect(screen.getByText(/Enter your email, or a mobile number/)).toBeInTheDocument();
     expect(router.push).not.toHaveBeenCalled();
   });
 
@@ -416,9 +419,9 @@ describe('AuthLayout and the Day/Night button', () => {
         <p>form</p>
       </AuthLayout>,
     );
-    expect(screen.getByRole('complementary', { name: 'About Campus Hand' })).toHaveTextContent(
-      'Made in Kampala for Ugandan universities',
-    );
+    const panel = screen.getByRole('complementary', { name: 'About Campus Hand' });
+    expect(panel).toHaveTextContent('Tutors and classmates from your own campus');
+    expect(panel).not.toHaveTextContent(/Kampala|Ugand/);
     const pill = screen.getByRole('button', { name: 'Switch to Night mode' });
     await user.click(pill);
     expect(document.documentElement.dataset.theme).toBe('night');

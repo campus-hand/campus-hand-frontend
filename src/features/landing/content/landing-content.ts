@@ -316,10 +316,8 @@ export const landingContent = {
       },
     ],
     legal: [
-      { label: 'Terms', href: SiteRoutes.terms },
-      { label: 'Privacy', href: SiteRoutes.privacy },
-      { label: 'Copyright and takedown', href: SiteRoutes.copyright },
-      { label: 'Community rules', href: SiteRoutes.rules },
+      { label: 'Terms & Conditions', href: SiteRoutes.terms },
+      { label: 'Privacy Policy', href: SiteRoutes.privacy },
     ],
     payments: 'Pay with Mobile Money, card, Chipper Cash or bank',
     rightsNotice: 'All rights reserved.',

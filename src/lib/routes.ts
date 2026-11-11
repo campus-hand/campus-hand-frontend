@@ -29,6 +29,4 @@ export class SiteRoutes {
   static readonly report = '/report';
   static readonly terms = '/terms';
   static readonly privacy = '/privacy';
-  static readonly copyright = '/copyright';
-  static readonly rules = '/community-rules';
 }
