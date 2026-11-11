@@ -1,7 +1,6 @@
 import { CampusBlogSection } from './campus-blog-section';
 import { CourseUnitsSection } from './course-units-section';
 import { FaqSection } from './faq-section';
-import { FinalCta } from './final-cta';
 import { HeroSection } from './hero-section';
 import { HowItWorksSection } from './how-it-works-section';
 import { InviteBand } from './invite-band';
@@ -32,7 +31,6 @@ export function LandingPage() {
         <CampusBlogSection />
         <FaqSection />
         <InviteBand />
-        <FinalCta />
       </main>
       <SiteFooter />
     </div>

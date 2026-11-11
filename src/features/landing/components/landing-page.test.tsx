@@ -16,8 +16,10 @@ describe('LandingPage', () => {
       'Campus, explained by students',
       'Questions',
       'Bring your whole class',
-      'Your semester starts here',
     ]);
+    // Removed on purpose (11 Nov 2026): they repeated sections above and made the phone page too long.
+    expect(screen.queryByText('Your semester starts here')).not.toBeInTheDocument();
+    expect(screen.queryByText('Invite your coursemates')).not.toBeInTheDocument();
     expect(
       screen.getByRole('heading', {
         level: 1,
@@ -41,7 +43,11 @@ describe('LandingPage', () => {
   it('builds WhatsApp share links for the invite band', () => {
     render(<LandingPage />);
     const links = screen.getAllByRole('link', { name: /share on whatsapp/i });
-    expect(links.length).toBeGreaterThanOrEqual(2);
+    expect(links).toHaveLength(1);
+    expect(screen.getByRole('link', { name: 'SMS' })).toHaveAttribute(
+      'href',
+      expect.stringMatching(/^sms:/),
+    );
     for (const link of links)
       expect(link).toHaveAttribute('href', expect.stringMatching(/^https:\/\/wa\.me\//));
   });

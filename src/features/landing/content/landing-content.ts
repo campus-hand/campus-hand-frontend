@@ -273,19 +273,9 @@ export const landingContent = {
     ],
   },
 
-  finalCta: {
-    title: 'Your semester starts here',
-    lead: 'Find your course units in under a minute.',
-    cta: 'Find your course units',
-  },
-
   footer: {
     description:
       'Notes, past papers, tutors and Magezi for every course unit you are doing this semester.',
-    invite: {
-      title: 'Invite your coursemates',
-      body: 'Every 5 who join and verify gives you 1 free week of Pro. They get 2 days free.',
-    },
     groups: [
       {
         title: 'Study',
