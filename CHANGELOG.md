@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/campus-hand/campus-hand-frontend/compare/v0.2.0...v0.3.0) (2026-11-11)
+
+
+### Features
+
+* **app:** add the reader with Magezi, Quiz me, Ask and Add to shelf ([#12](https://github.com/campus-hand/campus-hand-frontend/issues/12)) ([5cdd0d7](https://github.com/campus-hand/campus-hand-frontend/commit/5cdd0d757c68a24d645c6c14229121daa9a3b96a))
+* **app:** add tutors and session requests ([#14](https://github.com/campus-hand/campus-hand-frontend/issues/14)) ([0acbfaf](https://github.com/campus-hand/campus-hand-frontend/commit/0acbfafd08473f5f8aa5458cb8c1c35f80bbe01f))
+
 ## [0.2.0](https://github.com/campus-hand/campus-hand-frontend/compare/v0.1.1...v0.2.0) (2026-11-11)
 
 
