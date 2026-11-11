@@ -6,6 +6,12 @@ export interface Programme {
   readonly durationYears: number;
 }
 
+export interface InstitutionSummary {
+  readonly slug: string;
+  readonly name: string;
+  readonly shortName: string;
+}
+
 /** A course unit as listed for one year and semester of a programme. */
 export interface TermCourseUnit {
   readonly id: string;
@@ -50,6 +56,10 @@ export interface CourseUnitDetail {
  */
 export interface CatalogueSource {
   readonly mode: 'api' | 'preview';
+  /** Institutions that are live on Campus Hand. */
+  listInstitutions(): Promise<InstitutionSummary[]>;
+  /** An institution's programmes ([] when the institution is unknown). */
+  listProgrammes(institutionSlug: string): Promise<Programme[]>;
   findProgramme(institutionSlug: string, programmeCode: string): Promise<Programme | null>;
   termCourseUnits(programmeId: string, year: number, semester: number): Promise<TermCourseUnit[]>;
   /** null when there is no such course unit (or it is not public). */

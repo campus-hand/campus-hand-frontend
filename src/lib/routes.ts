@@ -39,6 +39,8 @@ export class SiteRoutes {
   static readonly blog = '/blog';
   static readonly help = '/help';
   static readonly upload = '/upload';
+  /** Upload without an account. */
+  static readonly uploadGuest = '/upload/guest';
   static readonly becomeTutor = '/tutors/apply';
   static readonly lecturers = '/lecturers';
   static readonly invite = '/invite';

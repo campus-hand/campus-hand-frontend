@@ -1,6 +1,12 @@
 import type { Client } from 'openapi-fetch';
 import type { paths } from '@/lib/api/schema';
-import type { CatalogueSource, CourseUnitDetail, Programme, TermCourseUnit } from './catalogue';
+import type {
+  CatalogueSource,
+  CourseUnitDetail,
+  InstitutionSummary,
+  Programme,
+  TermCourseUnit,
+} from './catalogue';
 
 /** The catalogue from the Campus Hand API (only "live" institutions are public). */
 export class ApiCatalogueSource implements CatalogueSource {
@@ -8,15 +14,28 @@ export class ApiCatalogueSource implements CatalogueSource {
 
   constructor(private readonly client: Client<paths>) {}
 
-  async findProgramme(institutionSlug: string, programmeCode: string): Promise<Programme | null> {
+  async listInstitutions(): Promise<InstitutionSummary[]> {
+    const { data, response } = await this.client.GET('/catalogue/institutions');
+    if (!data) return (await ApiCatalogueSource.missing(response)) ?? [];
+    return data.items.map(({ slug, name, shortName }) => ({ slug, name, shortName }));
+  }
+
+  async listProgrammes(institutionSlug: string): Promise<Programme[]> {
     const { data, response } = await this.client.GET('/catalogue/institutions/{slug}/programmes', {
       params: { path: { slug: institutionSlug } },
     });
-    if (!data) return ApiCatalogueSource.missing(response);
-    const found = data.items.find((p) => p.code === programmeCode);
-    return found
-      ? { id: found.id, code: found.code, name: found.name, durationYears: found.durationYears }
-      : null;
+    if (!data) return (await ApiCatalogueSource.missing(response)) ?? [];
+    return data.items.map((p) => ({
+      id: p.id,
+      code: p.code,
+      name: p.name,
+      durationYears: p.durationYears,
+    }));
+  }
+
+  async findProgramme(institutionSlug: string, programmeCode: string): Promise<Programme | null> {
+    const programmes = await this.listProgrammes(institutionSlug);
+    return programmes.find((p) => p.code === programmeCode) ?? null;
   }
 
   async termCourseUnits(

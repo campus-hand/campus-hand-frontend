@@ -264,6 +264,12 @@
     /* In-page links land below the sticky header (height set by StickyHeaderController). */
     scroll-padding-top: var(--header-h, 0px);
   }
+  /* Phone app screens: focused or scrolled-to items stop above the fixed tab bar. */
+  @media (width < 64rem) {
+    html:has(#app-main) {
+      scroll-padding-bottom: 6.5rem;
+    }
+  }
   body {
     @apply bg-paper text-ink;
     line-height: 1.5;
@@ -1153,9 +1159,48 @@
     font-size: 17px;
     outline: none;
   }
-  .field input::placeholder {
+  .field input::placeholder,
+  .field textarea::placeholder {
     color: var(--mute);
     opacity: 1;
+  }
+  /* Upload form: selects and multi-line text in the same outlined field */
+  .field select {
+    flex: 1;
+    min-width: 0;
+    height: 50px;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-size: 17px;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  .field select:disabled {
+    cursor: not-allowed;
+    color: var(--mute);
+  }
+  .field:has(select:disabled) {
+    background: var(--sunken);
+    box-shadow: none;
+    border-color: var(--rule);
+  }
+  .field textarea {
+    flex: 1;
+    min-width: 0;
+    min-height: 110px;
+    padding: 12px 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.5;
+    resize: vertical;
+    outline: none;
+  }
+  .field-area {
+    align-items: stretch;
   }
   .field input:focus-visible {
     outline: none; /* the whole field shows the focus ring */
