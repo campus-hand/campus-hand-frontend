@@ -442,6 +442,11 @@
     padding: 0;
     border-radius: 12px;
   }
+  /* Close (X) in the green drawer: signal red with a white X so it stands out. */
+  .menu-close {
+    background: var(--red);
+    color: var(--on-green);
+  }
   /* Yellow at rest; fills with the drawer's green on hover, focus or while open. */
   .menu-trigger:hover,
   .menu-trigger:focus-visible,

@@ -31,7 +31,7 @@ export function MobileMenu({ className }: { className?: string }) {
             <Dialog.Title className="display text-[22px] tracking-[0.04em] opacity-80">
               Menu
             </Dialog.Title>
-            <Dialog.Close className="btn btn-line menu-close" aria-label="Close menu">
+            <Dialog.Close className="btn menu-close" aria-label="Close menu">
               <CloseIcon />
             </Dialog.Close>
           </div>
