@@ -43,10 +43,10 @@ test('a file can be added to the shelf', async ({ page }) => {
 test('Quiz me runs through a question with feedback', async ({ page }) => {
   await page.goto('/quiz/csc-2100-t4');
   await expect(page.getByText('1 of 5')).toBeVisible();
-  await page.getByRole('button', { name: /^B: To the left/ }).click();
+  await page.getByRole('button', { name: /^B\s*To the left/ }).click();
   await expect(page.getByRole('heading', { level: 2, name: 'Right, to the left' })).toBeFocused();
   await expectNoSeriousAxeIssues(page);
-  await page.getByRole('button', { name: /^A: To the right/ }).click();
+  await page.getByRole('button', { name: /^A\s*To the right/ }).click();
   await expect(page.getByRole('heading', { level: 2, name: /Not quite/ })).toBeVisible();
   await page.getByRole('button', { name: 'Next question' }).click();
   await expect(page.getByText('2 of 5')).toBeVisible();

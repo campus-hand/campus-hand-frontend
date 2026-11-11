@@ -78,20 +78,20 @@ describe('QuizScreen', () => {
     );
 
     expect(screen.getByText('1 of 5')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /^B: To the left/ }));
+    await user.click(screen.getByRole('button', { name: /^B\s*To the left/ }));
     expect(screen.getByRole('heading', { level: 2, name: 'Right, to the left' })).toHaveFocus();
 
     await user.click(screen.getByRole('button', { name: 'Next question' }));
     expect(screen.getByText('2 of 5')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /^A: Pre-order/ }));
+    await user.click(screen.getByRole('button', { name: /^A\s*Pre-order/ }));
     expect(
       screen.getByRole('heading', { level: 2, name: "Not quite: it's C, In-order" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /^C: In-order, correct answer/ })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /^C\s*In-order, correct answer/ })).toBeDisabled();
 
     for (let i = 3; i <= 5; i++) {
       await user.click(screen.getByRole('button', { name: /Next question|See your score/ }));
-      await user.click(screen.getAllByRole('button', { name: /^B:/ })[0]);
+      await user.click(screen.getAllByRole('button', { name: /^B\s*\S/ })[0]);
     }
     await user.click(screen.getByRole('button', { name: 'See your score' }));
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/You got \d out of 5/);

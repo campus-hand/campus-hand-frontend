@@ -1,6 +1,7 @@
 // Server-side data for the student app. Each function returns plain data so it
 // can be cached ('use cache') and handed to client components.
 import { cacheLife } from 'next/cache';
+import { connection } from 'next/server';
 import type { CourseUnitDetail, TermCourseUnit } from '@/features/catalogue/models/catalogue';
 import { createCatalogueSource } from '@/features/catalogue/models/create-catalogue-source';
 import { catalogueMode } from '@/features/catalogue/models/data-mode';
@@ -10,6 +11,8 @@ import type { QuizDefinition } from '@/features/quiz/models/quiz';
 import { PreviewQuizSource } from '@/features/quiz/models/preview-quiz-source';
 import { PreviewResourceSource } from '@/features/reader/models/preview-resource-source';
 import type { ReaderResource } from '@/features/reader/models/resource';
+import { PreviewTutorSource } from '@/features/tutors/models/preview-tutor-source';
+import type { TutorProfile } from '@/features/tutors/models/tutors';
 import { PreviewViewerSource, type StudyPlace, type Viewer } from '@/features/viewer/models/viewer';
 import { SiteRoutes } from '@/lib/routes';
 
@@ -49,6 +52,24 @@ export function getMaterials(code: string): Promise<CourseUnitMaterials> {
 /** A file to open in the reader (preview data until uploads exist). */
 export function getResource(id: string): Promise<ReaderResource | null> {
   return new PreviewResourceSource().find(id);
+}
+
+/**
+ * The time of this request, in ms. Waits for the request first, so pages that
+ * show "today" or "free now" render per request instead of at build time.
+ */
+export async function requestTimeMs(): Promise<number> {
+  await connection();
+  return Date.now();
+}
+
+/** Tutors (preview data until the tutoring requests API exists). */
+export function getTutors(): Promise<TutorProfile[]> {
+  return new PreviewTutorSource().list();
+}
+
+export function getTutor(id: string): Promise<TutorProfile | null> {
+  return new PreviewTutorSource().find(id);
 }
 
 /** A topic's quiz (preview data until Magezi builds quizzes). */
