@@ -40,6 +40,7 @@
   --t-daily-bg: #d5f0e0;
   --t-daily-fg: #0b5a2e;
   --t-tut-fg: #8a2414;
+  --t-tut-bg: #fbdcd5;
   --sheet: #ffffff;
   --sheet-line: #e8edf2;
   --sheet-margin: #e3a08a;
@@ -131,6 +132,7 @@
   --t-daily-bg: #163a29;
   --t-daily-fg: #8fe0b4;
   --t-tut-fg: #ffb3a3;
+  --t-tut-bg: #3d1f1a;
   --sheet: #d9d4c7;
   --sheet-line: #c3c3bd;
   --sheet-margin: #c0806e;
@@ -165,6 +167,11 @@
   --google-bg: #131314;
   --google-fg: #e3e3e3;
   --google-edge: #8e918f;
+}
+
+/* "wide": desktop screens with room for a right rail beside the sidebar (1400 px). */
+@theme {
+  --breakpoint-wide: 87.5rem;
 }
 
 @theme inline {
@@ -202,6 +209,7 @@
   --color-daily-bg: var(--t-daily-bg);
   --color-daily-fg: var(--t-daily-fg);
   --color-tut-fg: var(--t-tut-fg);
+  --color-tut-bg: var(--t-tut-bg);
   --color-sheet: var(--sheet);
   --color-sheet-ink: var(--sheet-ink);
   --color-inverse: var(--inverse);
@@ -569,6 +577,41 @@
     background: var(--t-daily-bg);
     color: var(--t-daily-fg);
   }
+  .tag-tut {
+    background: var(--t-tut-bg);
+    color: var(--t-tut-fg);
+  }
+
+  /* Student app: mini ruled sheet used as a file thumbnail */
+  .sheet-thumb {
+    background-color: var(--sheet);
+    background-image:
+      linear-gradient(var(--sheet-margin), var(--sheet-margin)),
+      repeating-linear-gradient(to bottom, transparent 0 9px, var(--sheet-line) 9px 10px);
+    background-size:
+      1.5px 100%,
+      100% 100%;
+    background-position:
+      9px 0,
+      0 0;
+    background-repeat: no-repeat;
+    box-shadow:
+      inset 0 0 0 2px var(--edge),
+      2px 2px 0 var(--drop);
+  }
+  /* Course unit tiles lift towards the reader like the buttons */
+  .tile-pop {
+    transition:
+      transform 0.14s ease,
+      box-shadow 0.14s ease;
+  }
+  .tile-pop:hover {
+    transform: translate(-2px, -2px);
+    box-shadow:
+      inset 0 0 0 2.5px var(--edge),
+      6px 6px 0 var(--drop);
+  }
+
   .panel {
     background: var(--surface);
     border-radius: 22px;

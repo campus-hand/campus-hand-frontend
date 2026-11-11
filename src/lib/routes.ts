@@ -12,6 +12,25 @@ export class SiteRoutes {
   static readonly forgotPassword = '/forgot-password';
   static readonly resetPassword = '/forgot-password/reset';
   static readonly courseUnits = '/course-units';
+  /** The signed-in student's dashboard. */
+  static readonly appHome = '/home';
+  /** Campus assistant (Magezi chat for campus questions). */
+  static readonly ask = '/ask';
+  static readonly shelf = '/shelf';
+  static readonly studyPlan = '/plan';
+  static readonly notifications = '/notifications';
+  static courseUnit(id: string): string {
+    return `/course-units/${encodeURIComponent(id)}`;
+  }
+  static reader(resourceId: string): string {
+    return `/read/${encodeURIComponent(resourceId)}`;
+  }
+  static quiz(topicId: string): string {
+    return `/quiz/${encodeURIComponent(topicId)}`;
+  }
+  static tutor(id: string): string {
+    return `/tutors/${encodeURIComponent(id)}`;
+  }
   static readonly pastPapers = '/past-papers';
   static readonly notes = '/notes';
   static readonly magezi = '/magezi';
