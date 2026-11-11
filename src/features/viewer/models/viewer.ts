@@ -19,7 +19,12 @@ export class Viewer {
     readonly studyPlace: StudyPlace,
     /** Free Magezi credits left today and the daily allowance (docs: 3 a day). */
     readonly credits: { readonly left: number; readonly perDay: number },
+    readonly plan: 'free' | 'pro' = 'free',
   ) {}
+
+  get isPro(): boolean {
+    return this.plan === 'pro';
+  }
 
   /** "Nakato Sarah" -> "Sarah" (Ugandan names are often written surname first). */
   get firstName(): string {

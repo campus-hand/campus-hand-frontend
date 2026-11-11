@@ -6,7 +6,12 @@ import { createCatalogueSource } from '@/features/catalogue/models/create-catalo
 import { catalogueMode } from '@/features/catalogue/models/data-mode';
 import type { CourseUnitMaterials } from '@/features/course-unit/models/materials';
 import { PreviewMaterialsSource } from '@/features/course-unit/models/preview-materials-source';
+import type { QuizDefinition } from '@/features/quiz/models/quiz';
+import { PreviewQuizSource } from '@/features/quiz/models/preview-quiz-source';
+import { PreviewResourceSource } from '@/features/reader/models/preview-resource-source';
+import type { ReaderResource } from '@/features/reader/models/resource';
 import { PreviewViewerSource, type StudyPlace, type Viewer } from '@/features/viewer/models/viewer';
+import { SiteRoutes } from '@/lib/routes';
 
 export interface TermUnits {
   readonly programmeName: string | null;
@@ -39,4 +44,29 @@ export async function getCourseUnit(id: string): Promise<CourseUnitDetail | null
 /** Notes, past papers and tutors for a course unit (preview data until uploads exist). */
 export function getMaterials(code: string): Promise<CourseUnitMaterials> {
   return new PreviewMaterialsSource().forCourseUnit(code);
+}
+
+/** A file to open in the reader (preview data until uploads exist). */
+export function getResource(id: string): Promise<ReaderResource | null> {
+  return new PreviewResourceSource().find(id);
+}
+
+/** A topic's quiz (preview data until Magezi builds quizzes). */
+export function getQuiz(topicId: string): Promise<QuizDefinition | null> {
+  return new PreviewQuizSource().forTopic(topicId);
+}
+
+/**
+ * Where "back" goes for something in a course unit: that course unit's page
+ * when it is one of the viewer's units this semester, otherwise Home.
+ */
+export async function courseUnitLink(
+  code: string,
+  place: StudyPlace,
+): Promise<{ href: string; label: string }> {
+  const { units } = await getTermUnits(place);
+  const unit = units.find((u) => u.code === code);
+  return unit
+    ? { href: SiteRoutes.courseUnit(unit.id), label: code }
+    : { href: SiteRoutes.appHome, label: 'Home' };
 }
