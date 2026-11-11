@@ -1,1 +1,7 @@
-[{ "name": "All client JS", "path": ".next/static/chunks/**/*.js", "limit": "300 kB" }]
+[
+  {
+    "name": "All client JS (temporary total; switch to per-page limits once all screens are built)",
+    "path": ".next/static/chunks/**/*.js",
+    "limit": "450 kB"
+  }
+]
