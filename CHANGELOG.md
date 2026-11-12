@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/campus-hand/campus-hand-frontend/compare/v0.3.0...v0.4.0) (2026-11-12)
+
+
+### Features
+
+* **app:** add the campus blog with topics and post pages ([#17](https://github.com/campus-hand/campus-hand-frontend/issues/17)) ([788f283](https://github.com/campus-hand/campus-hand-frontend/commit/788f28370ce345f1333a20ad49aecd2868c37346))
+* **app:** add upload for students and guests, with reading-list books ([#15](https://github.com/campus-hand/campus-hand-frontend/issues/15)) ([2046a76](https://github.com/campus-hand/campus-hand-frontend/commit/2046a76f19bf35e59c4d073ba156f100e1f7f2f3))
+
 ## [0.3.0](https://github.com/campus-hand/campus-hand-frontend/compare/v0.2.0...v0.3.0) (2026-11-11)
 
 
