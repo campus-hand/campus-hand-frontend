@@ -2,13 +2,14 @@ import { House, Receipt, UtensilsCrossed, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { SiteRoutes } from '@/lib/routes';
 import { landingContent } from '../content/landing-content';
-import type { BlogTopic } from '../models/blog-post';
+import type { CampusCategory } from '@/features/campus/models/campus-post';
 
-const topicStyle: Record<BlogTopic, { band: string; tag: string; icon: LucideIcon }> = {
-  Fees: { band: 'bg-cobalt text-sun', tag: 'bg-sun text-on-sun', icon: Receipt },
-  Hostels: { band: 'bg-daily-bg text-daily-fg', tag: 'bg-surface text-daily-fg', icon: House },
-  Food: { band: 'bg-sun text-on-sun', tag: 'bg-surface text-tut-fg', icon: UtensilsCrossed },
-};
+const topicStyle: Partial<Record<CampusCategory, { band: string; tag: string; icon: LucideIcon }>> =
+  {
+    Fees: { band: 'bg-cobalt text-sun', tag: 'bg-sun text-on-sun', icon: Receipt },
+    Hostels: { band: 'bg-daily-bg text-daily-fg', tag: 'bg-surface text-daily-fg', icon: House },
+    Food: { band: 'bg-sun text-on-sun', tag: 'bg-surface text-tut-fg', icon: UtensilsCrossed },
+  };
 
 export function CampusBlogSection() {
   const { campus } = landingContent;
@@ -28,16 +29,16 @@ export function CampusBlogSection() {
       </div>
       <div className="mt-8 grid gap-5 md:grid-cols-3">
         {campus.posts.map((post) => {
-          const style = topicStyle[post.topic];
+          const style = topicStyle[post.category] ?? topicStyle.Fees!;
           const Icon = style.icon;
           return (
             <Link
-              key={post.title}
-              href={SiteRoutes.blog}
+              key={post.slug}
+              href={SiteRoutes.blogPost(post.slug)}
               className="panel flex flex-col overflow-hidden transition-transform hover:-translate-y-0.5"
             >
               <div className={`flex h-[150px] items-start justify-between p-5 ${style.band}`}>
-                <span className={`tag ${style.tag}`}>{post.topic}</span>
+                <span className={`tag ${style.tag}`}>{post.category}</span>
                 <Icon className="size-14 opacity-90" strokeWidth={1.5} aria-hidden="true" />
               </div>
               <div className="px-5 pt-[18px] pb-5">

@@ -1,5 +1,5 @@
 import { SiteRoutes } from '@/lib/routes';
-import { BlogPost } from '../models/blog-post';
+import { previewPosts } from '@/features/campus/content/preview-posts';
 import { CourseUnit } from '../models/course-unit';
 import { ReferralProgram } from '../models/referral-program';
 import { Tutor } from '../models/tutor';
@@ -202,16 +202,10 @@ export const landingContent = {
     title: 'Campus, explained by students',
     lead: 'Fees, hostels, food and the offices you will need. Written by students, checked by our moderators.',
     cta: 'Read the campus blog',
-    posts: [
-      new BlogPost('Fees', 'Paying for a retake, step by step', 'Namusoke Joan', 5),
-      new BlogPost(
-        'Hostels',
-        'Hostels near campus under UGX 400,000 a semester',
-        'Ssemakula Paul',
-        7,
-      ),
-      new BlogPost('Food', 'Lunch under UGX 5,000 near Wandegeya', 'Achieng Faith', 4),
-    ],
+    /** TODO(content): the newest checked post in each of these categories, once posts are live. */
+    posts: (['paying-for-a-retake', 'hostels-under-400k', 'lunch-under-5000'] as const).map(
+      (slug) => previewPosts.find((p) => p.slug === slug)!,
+    ),
   },
 
   faq: {
